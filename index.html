@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>John's Coding Project</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Hi, I'm John 👋</h1>
+  <p>This is a cool coding project I'm working on. Feel free to try the calculator below!</p>
+
+  <div class="calculator">
+    <input type="text" id="expression" placeholder="e.g. 2 + 2" />
+    <br />
+    <button onclick="calculate()">Calculate</button>
+    <div id="result"></div>
+  </div>
+
+  <button id="launchProxy">Launch Homework Tracker</button>
+
+  <script>
+    function calculate() {
+      const expr = document.getElementById("expression").value;
+      try {
+        const result = eval(expr);
+        document.getElementById("result").innerText = "Result: " + result;
+      } catch {
+        document.getElementById("result").innerText = "Invalid expression.";
+      }
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.shiftKey && e.key.toLowerCase() === "b") {
+        const code = prompt("Enter access code:");
+        if (code === "1020284") {
+          document.getElementById("launchProxy").click();
+        } else {
+          alert("Incorrect code.");
+        }
+      }
+    });
+
+    document.getElementById("launchProxy").addEventListener("click", function () {
+      const newTab = window.open("about:blank", "_blank");
+      if (!newTab) {
+        alert("Pop-up blocked. Please allow pop-ups for this site.");
+        return;
+      }
+
+      const content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Homework Tracker</title>
+          <style>
+            body { margin: 0; overflow: hidden; }
+            iframe { width: 100vw; height: 100vh; border: none; }
+            #fullscreenBtn {
+              position: fixed;
+              top: 10px;
+              right: 10px;
+              z-index: 9999;
+              padding: 10px 15px;
+              background: #0077cc;
+              color: white;
+              border: none;
+              font-size: 16px;
+              cursor: pointer;
+            }
+          </style>
+        </head>
+        <body>
+          <button id="fullscreenBtn">Fullscreen</button>
+          <iframe id="proxyFrame" src="https://homework-tracker-5tqc.onrender.com/"></iframe>
+          <script>
+            document.getElementById("fullscreenBtn").onclick = function() {
+              const iframe = document.getElementById("proxyFrame");
+              if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+              } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+              } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+              }
+            };
+          <\/script>
+        </body>
+        </html>
+      `;
+
+      newTab.document.open();
+      newTab.document.write(content);
+      newTab.document.close();
+    });
+  </script>
+</body>
+</html>
